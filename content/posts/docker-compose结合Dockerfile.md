@@ -4,31 +4,31 @@ draft = false
 
 toc = true
 
-title = 'Docker Compose结合Dockerfile'
+title = 'Using Docker Compose with Dockerfiles'
 
 +++
 
-主要是在做CTF环境配置中的记录 所以没有多高性能要求的配置项
+These notes mainly cover CTF environment configuration, so the examples do not aim for high-performance deployment.
 
-Dockerfile用来构建镜像 docker-compose用来启动管理多容器
+A Dockerfile builds an image; Docker Compose starts and manages multiple containers.
 
-### 一个案例
+### An example
 
 **Dockerfile**
 
 ```bash
-# 构建阶段
+# Build stage
 FROM python:3.9 as builder
 
 WORKDIR /build
 COPY requirements.txt .
 RUN pip install --user -r requirements.txt
 
-# 生产阶段
+# Production stage
 FROM python:3.9-slim
 
-ARG FLAG  # 构建参数声明
-ENV FLAG=$FLAG  # 转为环境变量
+ARG FLAG  # Declare a build argument
+ENV FLAG=$FLAG  # Expose it as an environment variable
 
 RUN useradd -m ctfuser
 WORKDIR /app
@@ -43,37 +43,37 @@ CMD ["python", "app.py"]
 **docker-compose**
 
 ```bash
-version: '3.8'  # 推荐使用 3.8 版本[3,5](@ref)
+version: '3.8'  # Version 3.8 is recommended in the original example [3,5](@ref)
 services:
   web:
-    image: nginx:alpine  # 使用轻量级镜像
-    container_name: my_web  # 自定义容器名（单实例场景）
+    image: nginx:alpine  # Use a lightweight image
+    container_name: my_web  # Custom container name for a single-instance deployment
     ports:
-      - "80:80"  # 主机端口:容器端口
+      - "80:80"  # Host port:container port
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro  # 只读挂载配置
-      - ./static:/var/www/html  # 动态挂载静态资源
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro  # Mount the configuration read-only
+      - ./static:/var/www/html  # Mount static assets dynamically
     environment:
-      - TZ=Asia/Shanghai  # 时区设置
-    restart: unless-stopped  # 自动重启策略[7](@ref)
+      - TZ=Asia/Shanghai  # Time zone
+    restart: unless-stopped  # Automatic restart policy [7](@ref)
     networks:
       - app_network
 
 networks:
   app_network:
-    driver: bridge  # 默认网络驱动
+    driver: bridge  # Default network driver
 ```
 
-### 配置
+### Configuration
 
-（有些Dockerfile中的配置会被docker-compose中的覆盖）
+(Some Dockerfile settings may be overridden by Docker Compose.)
 
-#### 文件系统
+#### File system
 
 **Dockerfile**
 
 ```bash
-WORKDIR /app #(没有的话会自动创建)
+WORKDIR /app # Created automatically if it does not exist
 COPY . /app 
 ```
 
@@ -84,7 +84,7 @@ volumes:
   - .:/app  
 ```
 
-#### 环境的变量
+#### Environment variables
 
 **Dockerfile**
 
@@ -99,23 +99,23 @@ ENV KEY=value
       - DEBUG=true
 ```
 
-### 一些用到的命令
+### Useful commands
 
 ```bash
-# 构建镜像（不启动容器）
+# Build the image without starting containers
 docker-compose build
 
-# 启动容器（使用已构建的镜像）
+# Start containers using the built image
 docker-compose up -d
-# 完全重新构建（清除缓存）
+# Rebuild from scratch without using the cache
 docker-compose build --no-cache && docker-compose up -d
 ```
 
-### 注意事项
+### Notes
 
-docker-compose传递环境变量不要加空格和引号
+When passing environment variables through docker-compose in this setup, avoid extra spaces and quotation marks.
 
-Dockerfile不要加引号
+Do not add quotation marks to the Dockerfile values in this setup.
 
-docker exec 可以执行容器里的命令
+Use docker exec to run commands inside a container.
 

@@ -1,7 +1,7 @@
 +++
 date = '2025-03-24T19:05:12+08:00'
 draft = true
-title = '揭秘家用路由器0day漏洞挖掘技术读书笔记'
+title = 'Reading Notes: Finding Zero-Day Vulnerabilities in Home Routers'
 
 toc = true
 
@@ -9,9 +9,9 @@ toc = true
 
 
 
-# 路由器基础知识
+# Router fundamentals
 
-## WIFI几种加密认证方式
+## Wi-Fi encryption and authentication methods
 
 WPA
 
@@ -21,9 +21,9 @@ WEP
 
 
 
-# 路由器漏洞类型
+# Types of router vulnerabilities
 
-# 软件篇
+# Software
 
-# 硬件篇
+# Hardware
 

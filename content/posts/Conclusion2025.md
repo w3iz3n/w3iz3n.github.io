@@ -9,9 +9,9 @@ title = 'Conclusion2025'
 
 We met a new era which was not seen before, in past hundreds years.
 
-### 关于成长
+### On growth
 
-2025最大的成就可能就是终于拿下了雅思7.0，
+My biggest achievement in 2025 was probably finally earning an IELTS score of 7.0.
 
 ### Gossip
 

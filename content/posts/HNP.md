@@ -12,25 +12,25 @@ title = 'HNP'
 
 [TOC]
 
-# 定义
+# Definitions
 
-## 格相关定义
+## Lattice terminology
 
 <img src="https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230329100039281.png" alt="image-20230329100039281" style="zoom: 67%;" />
 
 <img src="https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230326193037947.png" alt="image-20230326193037947" style="zoom:80%;" />
 
-其中$v_{i}$被视为格基，L的维度是L中$v_{i}$向量的个数,称*n*为格的秩，其中的V就是基向量，基向量的个数一般被称为维数。*n* = *m* 时，则称该格是一个满秩格。一个格的秩是指它所包含的线性无关向量的最大数量，而格的维度则是指包含该格的向量空间的维度。
+Here, $v_{i}$ are the lattice basis vectors. These notes use $n$ for the number of basis vectors and $m$ for the ambient dimension. The rank of a lattice is the maximum number of linearly independent vectors it contains, while the ambient dimension is the dimension of the surrounding vector space. When *n* = *m*, the lattice is full rank.
 
-## CVP问题
+## The closest vector problem (CVP)
 
 <img src="https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230326201029976.png" alt="image-20230326201029976" style="zoom:80%;" />
 
-给定一个在格L中的向量$\omega$,要求在各种找到一个向量$v$,要求Euclidean norm最小，下面是原文中对于Euclidean norm的介绍
+Given a lattice $L$ and a target vector $\omega$, the task is to find a lattice vector $v$ that minimizes the Euclidean distance to the target. The source introduces the Euclidean norm as follows:
 
 ![image-20230327093924248](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230327093924248.png)
 
-## SVP问题
+## The shortest vector problem (SVP)
 
 <img src="https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230331113537649.png" alt="image-20230331113537649"  />
 
@@ -38,75 +38,75 @@ title = 'HNP'
 
 ## Hadamard ratio
 
-给一个$B=(V_{1},V_{2},.....V_{i})$,存在hadamard不等式$||v_{1}||||v_{2}||||v_{3}||......||v_{i}||\geq{detL}$
+For a basis $B=(V_{1},V_{2},.....V_{i})$, Hadamard's inequality gives $||v_{1}||||v_{2}||||v_{3}||......||v_{i}||\geq{detL}$.
 
-由此定义Hadamard ratio:$H(B)=(\frac{detL}{||v_{1}||||v_{2}||||v_{3}||......||v_{i}||})^{\frac{1}{n}}$,该$H(B)\in(0,1)$,比率与1的接近程度，表示这组基的正交化程度，由此可以作为其中一个标准区分”好基“与”坏基“。
+This defines the Hadamard ratio: $H(B)=(\frac{detL}{||v_{1}||||v_{2}||||v_{3}||......||v_{i}||})^{\frac{1}{n}}$. Here $H(B)\in(0,1)$. Its proximity to 1 measures how close the basis is to being orthogonal, providing one way to distinguish a "good" basis from a "bad" one.
 
-## 欧几里得空间
+## Euclidean space
 
-在该空间中定义了向量之间的距离和角度，满足以下公理：
+Distances and angles between vectors are defined in this space. The norm satisfies the following properties:
 
-1. 非负性：对于任意向量x，有 ||x|| >= 0，并且当且仅当x = 0时等号成立。
-2. 同一性：对于任意向量x，有 ||x|| = 0当且仅当x = 0。
-3. 三角不等式：对于任意向量x和y，有 ||x + y|| <= ||x|| + ||y||。
-4. 标量乘法：对于任意向量x和实数a，有 ||ax|| = |a| ||x||。
+1. Nonnegativity: for any vector x, ||x|| >= 0, with equality if and only if x = 0.
+2. Definiteness: for any vector x, ||x|| = 0 if and only if x = 0.
+3. Triangle inequality: for any vectors x and y, ||x + y|| <= ||x|| + ||y||.
+4. Absolute homogeneity: for any vector x and real scalar a, ||ax|| = |a| ||x||.
 
-在欧几里得空间中，向量之间的距离通常使用欧几里得距离来度量，即在n维空间中，向量x和y之间的欧几里得距离为：
+Distances between vectors in Euclidean space are usually measured with Euclidean distance. In n dimensions, the distance between vectors x and y is:
 
  $d(x, y) =\sqrt{((x_1 - y_1)^2 + (x_2 - y_2)^2 + ... + (x_n - y_n)^2)}$
 
-其中，$x_i$和$y_i$分别表示向量x和y在第i个维度上的坐标。
+Here, $x_i$ and $y_i$ are the coordinates of vectors x and y in the i-th dimension.
 
-## HNP问题的本质
+## The essence of the hidden number problem
 
-以下分别是ctf wiki与《Solving Hidden Number Problem with One Bit Oracle and Advice》论文中对于hnp问题的介绍
+The following are introductions to HNP from CTF Wiki and the paper *Solving Hidden Number Problem with One Bit Oracle and Advice*, respectively.
 
 ![image-20230331154948051](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230331154948051.png)
 
 ![image-20230331154740160](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230331154740160.png)
 
-由于在不同问题中不同的应用场景，按照个人的理解HNP问题的理解可以分为以下几个步骤：
+The exact setting varies between applications. My understanding of HNP can be broken down as follows:
 
-- 在有限域$F_{p}$上存在$u_{i}$使得$|f(tx)\%p-u_{i}|<=\frac{p}{2^{l+1}}$,其中l是最高有效位的位数
+- Over the finite field $F_{p}$, there are values $u_{i}$ such that $|f(tx)\%p-u_{i}|<=\frac{p}{2^{l+1}}$, where l is the number of known most significant bits.
 
-- t是已知的随机数，$tx已知部分比特位$
+- t is a known random value, and some bits of $tx$ are known.
 
-- $p,t,u$都被给出 从而求$x$
+- Given $p,t,u$, recover $x$.
 
-  整体的过程是在格中寻找一个与不在格中的$x$最接近的向量
+  The overall idea is to search a lattice for the vector closest to a target associated with the unknown $x$.
 
   $\begin{bmatrix} p & 0 & \dots & 0 & 0 \\ 0 & p & \dots & 0 & 0 \\ \vdots & \vdots & \ddots & \vdots & \vdots \\ 0 & 0 & \dots & p & 0 \\ t_1&t_2&...&t_d&\frac{1}{2^{l+1}} \end{bmatrix}$
 
-# 问题可解的条件
+# Conditions for solving the problem
 
 ![image-20230331162400758](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230331162400758.png)
 
-当泄露的位数k,达到$k>=\sqrt{n}+\sqrt{logn}$时如果有d=$2\sqrt{n}$次及以上的oracle则有1/2的机会解决问题。
+When the number of leaked bits k reaches $k>=\sqrt{n}+\sqrt{logn}$, at least d=$2\sqrt{n}$ oracle queries give a 1/2 probability of solving the problem.
 
-# 相关算法
+# Related algorithms
 
-## 高斯规约
+## Gaussian reduction
 
 ![image-20230405152157401](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230405152157401.png)
 
-> 高斯规约仅仅适用于二维格
+> Gaussian reduction applies only to two-dimensional lattices.
 
 ```python
 import numpy as np
-#高斯规约
+# Gaussian reduction
 def gaussian_reduction(B):
     n, m = B.shape
-    mu = 2.0 # 设置初始系数
+    mu = 2.0 # Set the initial coefficient
     while mu >= 1:
-        # 对基向量进行排序
+        # Sort the basis vectors
         norms = np.linalg.norm(B, axis=1)
         indices = np.argsort(norms)[::-1]
         B = B[indices]
-        #Gram-Schmidt正交化处理
+        # Apply Gram-Schmidt orthogonalization
         for i in range(1, m):
             for j in range(i):
                 B[:, i] = B[:, i] - round(np.dot(B[:, i], B[:, j]) / np.dot(B[:, j], B[:, j])) * B[:, j]
-        # 验证LLL条件
+        # Check the LLL condition
         mu = 0.75
         for i in range(m - 1):
             if np.linalg.norm(B[:, i + 1]) < mu * np.linalg.norm(B[:, i]):
@@ -115,67 +115,67 @@ def gaussian_reduction(B):
     return B
 ```
 
-LLL条件用来约束约减后的矩阵更加紧凑稳定。
+The LLL condition constrains the reduced matrix to have a more compact, stable basis.
 
-高斯归约的步骤可以被归纳为：
+The steps of Gaussian reduction can be summarized as follows:
 
-- 对基向量对比 
-- 施密特正交化处理
-- 条件验证判断是否返回
+- Compare the basis vectors.
+- Apply Gram-Schmidt orthogonalization.
+- Check the condition and decide whether to return.
 
-## Gram-Schmidt正交化
+## Gram-Schmidt orthogonalization
 
 <img src="https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230331101107493.png" alt="image-20230331101107493" style="zoom:80%;" />
 
-Gram-Schmidt算法通过给定一组基，得到一组正交基，通常$p_{ij}$与角度相关
+The Gram-Schmidt algorithm takes a basis and produces an orthogonal basis. The coefficients $p_{ij}$ are related to the angles between vectors.
 
-归纳总结步骤可以分为以下几步：
+The procedure can be summarized in these steps:
 
-- 挨个去除向量计算投影向量的系数
-- 挨个减去投影向量
-- 更新基向量
-- 对基向量进行单位化
+- Compute projection coefficients for each vector.
+- Subtract the projection vectors one by one.
+- Update the basis vectors.
+- Normalize the basis vectors.
 
 ```python
 def Gram_Schmidt(B):
-    n = B.shape[1] # 基向量的数量
-    mu = np.zeros((n, n)) # 记录Gram-Schmidt正交系数的矩阵
+    n = B.shape[1] # Number of basis vectors
+    mu = np.zeros((n, n)) # Matrix of Gram-Schmidt coefficients
     for i in range(n):
-        v = B[:, i] # 取出第i个基向量
+        v = B[:, i] # Extract the i-th basis vector
         for j in range(i):
             mu[j, i] = np.dot(B[:, i], B[:, j]) / np.dot(B[:, j], B[:, j])
-            v = v - mu[j, i] * B[:, j] # 将第i个基向量投影到第j个基向量上
-        B[:, i] = v # 更新第i个基向量
-        mu[i, i] = np.linalg.norm(B[:, i]) # 计算第i个基向量的长度
-        B[:, i] = B[:, i] / mu[i, i] # 对第i个基向量进行单位化
+            v = v - mu[j, i] * B[:, j] # Subtract the projection onto the j-th basis vector
+        B[:, i] = v # Update the i-th basis vector
+        mu[i, i] = np.linalg.norm(B[:, i]) # Compute its length
+        B[:, i] = B[:, i] / mu[i, i] # Normalize it
     return B, mu
 ```
 
-从原始向量组中选取第一个向量$u_1$，然后对于后续的每一个向量$v_i$，我们找到它**在前面所有向量张成的子空间上的投影向量**，然后将它减去这个投影向量，得到的向量$u_i$与前面的向量都是正交的。
+Start with the first vector $u_1$ in the original set. For each subsequent vector $v_i$, find its **projection onto the subspace spanned by all preceding vectors** and subtract that projection. The resulting vector $u_i$ is orthogonal to the preceding vectors.
 
-## LLL（Lenstra-Lenstra-Lovász）算法
+## The LLL (Lenstra-Lenstra-Lovász) algorithm
 
-> LLL算法是一种基于Gram-Schmidt正交化方法的改进算法，用于在高维空间中对基向量进行约减,能够有效地将一个给定的整数线性方程组中的向量组进行约简，从而降低计算复杂度。算法的核心思想是通过连续的基变换来减小向量组中每个向量在其余向量张成的子空间上的投影长度，直到满足一定的约束条件为止。![image-20230405155655177](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230405155655177.png)
+> LLL is a lattice basis reduction algorithm built on Gram-Schmidt orthogonalization. It reduces basis vectors in higher-dimensional spaces and can simplify lattice formulations of integer linear systems. The central idea is to make successive basis changes that shorten vectors while satisfying prescribed constraints. ![image-20230405155655177](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230405155655177.png)
 
-以下是LLL算法的主要步骤：
+The main steps of the LLL algorithm are outlined below:
 
 ![image-20230420232045946](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230420232045946.png)
 
-1. 初始化：给定一个正整数n和一个n维向量组B作为初始的基向量组。
+1. Initialize: take a positive integer n and an n-dimensional vector set B as the initial basis.
 
-2. Gram-Schmidt正交化：对于给定的向量组B，通过Gram-Schmidt正交化方法将其正交化，得到一个正交向量组B'。
+2. Gram-Schmidt orthogonalization: apply Gram-Schmidt to B to obtain an orthogonal vector set B'.
 
-3. 基向量的长度排序：将向量组B'中的向量按照长度从大到小排序。
+3. Order the basis vectors: sort the vectors in B' by length, from longest to shortest.
 
-4. LLL约减：对于向量组B'中的每个向量$v_i$，将其与前面的向量进行一定的线性组合，使得得到的向量$w_i$尽可能地小。具体地，对于第i个向量，将其与前面的向量$v_1$到$v_{i-1}$进行线性组合，得到一个新向量$w_i$，使得$w_i$ =$ v_i $- $μ_{ij}$*$v_j$ (0 <= j < i)，其中$μ_ij$是一个适当的实数，称为Gram-Schmidt系数。通过选择适当的$μ_{ij}$，使得$w_i$的长度最小。这样一直处理完向量组B'中的所有向量后，得到的向量组B''就是LLLM-基。
+4. LLL reduction: for each vector $v_i$ in B', take linear combinations with preceding vectors so that the resulting $w_i$ is as short as possible. For the i-th vector, combine $v_1$ through $v_{i-1}$ to obtain $w_i$ =$ v_i $- $μ_{ij}$*$v_j$ (0 <= j < i), where $μ_ij$ is a real Gram-Schmidt coefficient. Choose suitable $μ_{ij}$ to minimize the length of $w_i$. Once all vectors in B' have been processed, the resulting set B'' is the LLLM-basis described in these notes.
 
-5. 判断：对于得到的向量组B''，判断其是否满足LLL条件，即满足：
+5. Check: determine whether B'' satisfies the LLL conditions listed here:
 
-   a. 0.25 <=$ μ_{ij}^2 * ||v_j||^2 < 1$，对于0 <= j < i < n；
+   a. 0.25 <=$ μ_{ij}^2 * ||v_j||^2 < 1$, for 0 <= j < i < n;
 
-   b. $||w_i||^2 \geq (\frac{3}{4} - μ_i^2) * ||w_i-1||^2$，对于1 <= i < n。
+   b. $||w_i||^2 \geq (\frac{3}{4} - μ_i^2) * ||w_i-1||^2$, for 1 <= i < n.
 
-   如果不满足上述条件，那么返回步骤4，否则终止算法。
+   If these conditions do not hold, return to step 4; otherwise, terminate.
 
 ```python
 import numpy as np
@@ -197,66 +197,66 @@ def LLL(B, delta):
             basis[i], basis[i-1] = basis[i-1], basis[i]
             gs[i, :i], gs[i-1, :i] = gs[i-1, :i], gs[i, :i]
             i -= 1
-            #验证条件
+            # Check the condition
             if i > 0:
                 gs[i, i-1] = np.dot(basis[i], basis[i-1]) / np.dot(basis[i-1], basis[i-1])
                 basis[i] -= np.round(gs[i, i-1]) * basis[i-1]
     return basis.tolist()
 ```
 
-## BKZ算法
+## The BKZ algorithm
 
-BKZ算法是一种基于LLL算法的改进算法，其主要思想是使用一系列的基向量变换，将原网格基转化为一个更加优良的基，用于处理CVP问题和SVP问题，其主要思想是在矩阵的列向量之间应用一个“剖析函数”，将矩阵分成一组小的块，然后对每个块分别进行基向量变换，使得每个块中的基向量之间具有更小的Gram-Schmidt正交系数。
+BKZ improves on LLL by using blockwise basis transformations to obtain a better lattice basis for problems such as CVP and SVP. The idea is to partition the basis into smaller blocks and reduce each block, improving the relationships between its Gram-Schmidt vectors.
 
-步骤如下：
+An outline of the procedure follows:
 
-1. 初始化：将给定的整数向量组 $V = { {v}_1,  {v}_2, \cdots,  {v}_n}$ 转化为整数网格 $L = {span}*{\mathbb{Z}} { {v}_1,  {v}_2, \cdots,  {v}_n}$。
-2. 选择 Block Size：选择一个正整数 $k$，称为 Block Size，用于决定每次 Gram-Schmidt 正交化时需要处理的基向量个数。
-3. 对初始基向量进行 Gram-Schmidt 正交化：对 $L$ 的初始基向量 ${ v_1,  v_2, \cdots,  v_n}$ 进行 Gram-Schmidt 正交化，并得到正交基 ${ {b}_1,  {b}_2, \cdots,  {b}_n}$。
-4. 进行 LLL 变换：使用 LLL 算法对 ${b_1,  b_2, \cdots,  b_n}$ 进行 LLL 变换，并得到新的基向量组 ${ {b'}_1,  {b'}_2, \cdots,  {b'}_n}$。
-5. 进行 BKZ 变换：对于 $1 \leq i < n$，将 ${ b'*i,  b'*{i+1}, \cdots,  b'_n}$ 按照 $k$ 个一组进行 Gram-Schmidt 正交化，并得到新的基向量组 ${ {b''}_1,  {b''}_2, \cdots,  {b''}_n}$。如果 $k=1$，则这一步就相当于 LLL 变换。
-6. 判断停止条件：判断 ${ b''_1,  {b''}_2, \cdots,  {b''}_n}$ 是否满足特定的停止条件。如果满足，则输出最优解；否则，继续执行第 5 步。
-7. 重复步骤 5 和步骤 6：使用新的基向量组 ${ b''_1,  {b''}_2, \cdots,  {b''}_n}$ 重复执行步骤 5 和步骤 6，直到满足停止条件。
+1. Initialize: convert the integer vector set $V = { {v}_1,  {v}_2, \cdots,  {v}_n}$ into the integer lattice $L = {span}*{\mathbb{Z}} { {v}_1,  {v}_2, \cdots,  {v}_n}$.
+2. Choose a block size: select a positive integer $k$ that determines how many basis vectors are processed in each block.
+3. Orthogonalize the initial basis: apply Gram-Schmidt to the initial vectors ${ v_1,  v_2, \cdots,  v_n}$ of $L$, obtaining ${ {b}_1,  {b}_2, \cdots,  {b}_n}$.
+4. Apply LLL: reduce ${b_1,  b_2, \cdots,  b_n}$ with LLL to obtain the new basis ${ {b'}_1,  {b'}_2, \cdots,  {b'}_n}$.
+5. Apply BKZ: for $1 \leq i < n$, process ${ b'*i,  b'*{i+1}, \cdots,  b'_n}$ in blocks of $k$ vectors using Gram-Schmidt, obtaining ${ {b''}_1,  {b''}_2, \cdots,  {b''}_n}$. With $k=1$, this step corresponds to the LLL transformation in this outline.
+6. Check the stopping criterion: determine whether ${ b''_1,  {b''}_2, \cdots,  {b''}_n}$ satisfies the chosen criterion. If so, output the result; otherwise, continue with step 5.
+7. Repeat steps 5 and 6 with the updated basis ${ b''_1,  {b''}_2, \cdots,  {b''}_n}$ until the stopping criterion is met.
 
 ```python
 import numpy as np
 def BKZ(B, delta=0.99, blocksize=30):
-    n = B.shape[1] # 基向量的数量
-    m = min(n, blocksize) # 选择一个块大小
-    B, mu = Gram_Schmidt(B) # 对基向量矩阵进行Gram-Schmidt正交化处理
-    k = m # 当前正在处理的块的起始位置
+    n = B.shape[1] # Number of basis vectors
+    m = min(n, blocksize) # Select a block size
+    B, mu = Gram_Schmidt(B) # Orthogonalize the basis matrix
+    k = m # Starting position of the current block
     while k <= n:
-        B[:, k:m], mu[k:m, k:m] = Gram_Schmidt(B[:, k:m]) # 对当前块进行Gram-Schmidt正交化处理
-        u = B[:, k-1] # 取出第k-1个基向量
+        B[:, k:m], mu[k:m, k:m] = Gram_Schmidt(B[:, k:m]) # Orthogonalize the current block
+        u = B[:, k-1] # Extract basis vector k-1
         for j in range(k-2, -1, -1):
-            # 使用Hadamard变换将前面的基向量全部投影到第k-1个基向量上
+            # Project preceding basis vectors onto basis vector k-1 using the Hadamard transformation
             u = u - round(mu[j, k-1]) * B[:, j]
-        # 计算新的第k-1个基向量
+        # Compute the updated basis vector k-1
         B[:, k-1] = u
-        B, mu = Gram_Schmidt(B) # 再次对基向量矩阵进行Gram-Schmidt正交化处理
+        B, mu = Gram_Schmidt(B) # Apply Gram-Schmidt again
         norm_B_k = np.linalg.norm(B[:, k-1])
         if norm_B_k < delta * np.linalg.norm(B[:, k-2]):
             if k == n:
-                return B # 所有基向量已处理完成，退出循环
+                return B # All basis vectors have been processed
             else:
-                k = k + 1 # 处理下一个块
-                m = min(n, k + blocksize - 1) # 选择下一个块的大小
+                k = k + 1 # Process the next block
+                m = min(n, k + blocksize - 1) # Select the next block size
     return B
 ```
 
-## Babai最近平面算法
+## Babai's nearest plane algorithm
 
-baBai算法可以用于求解格上最近向量问题（Closest Vector Problem, CVP），其基本思想是将CVP问题转化为求解平面图形交问题求解。
+Babai's algorithm can be used to approximate the closest vector problem (CVP) on a lattice. These notes describe its intuition in terms of intersections of geometric planes.
 
-以下是baBai算法解决CVP问题的主要步骤：
+The following outline describes the steps for applying Babai's algorithm to CVP:
 
-1. 网格基的构造：将问题中给定的网格基表示为一个矩阵A=[$a_1$,$a_2$,...,$a_n$]，其中每个$a_i$表示第i个网格向量,也就是基向量矩阵B。
-2. 前向回归：对于每个网格向量ai，构造一个新的向量bi=ai，然后从左往右遍历bi的每个分量，将其调整为最接近整数的值。例如，对于第j个分量，将其调整为离其最近的整数，然后将剩余分量的值减去ai[j]乘以调整后的值。这个过程可以使用LLL算法中的前向回归实现。
-3. 平面图形交的构造：将所有构造出的向量bi表示为平面上的点，并将它们相互连接，得到一组线段，即平面图形交。
-4. baBai算法的应用：使用baBai算法求解平面图形交，得到所有交点中距离原点最近的一个交点，即为最近向量。
-5. 后向回归：将求得的最近向量表示为网格基上的线性组合，可以使用L算法中的后向回归实现。
+1. Construct the lattice basis: represent the given basis as a matrix A=[$a_1$,$a_2$,...,$a_n$], where each $a_i$ is a lattice basis vector, giving the basis matrix B.
+2. Forward reduction: for each lattice vector ai, construct a vector bi=ai and traverse its components from left to right, rounding to the nearest integer. For component j, round to the nearest integer, then subtract ai[j] times that rounded value from the remaining components. These notes relate this step to forward reduction in LLL.
+3. Construct the geometric intersections: represent the constructed vectors bi as points in a plane and connect them to form line segments.
+4. Apply Babai's algorithm: use it on this construction to find the intersection closest to the origin, corresponding to the closest vector in this outline.
+5. Backward reduction: express the recovered vector as a linear combination of lattice basis vectors, using the backward-reduction procedure described in these notes.
 
-> *Babai最近平面算法仅仅在欧几里得空间中适用
+> *Babai's nearest plane algorithm applies in Euclidean space.*
 
 ![image-20230331151351515](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230331151351515.png)
 
@@ -271,19 +271,19 @@ def Babai_closest_vector(M, G, target):
     return target - small
 ```
 
-# 适用场景
+# Applications
 
-## ECDSA中的应用
+## Applications to ECDSA
 
 ### ECDSA
 
 ![image-20230406100123080](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230406100123080.png)
 
-其中的e就是nonce值
+Here, e is the nonce value.
 
 ### biased nonce attack
 
-biased nonce attack是一种针对ECDSA签名算法的攻击方法，其攻击目标是私钥被保护的情况下，通过构造特殊的消息和签名对来获取ECDSA签名中使用的随机数（nonce）。通过预测nonce，攻击者可以使用已知的签名和消息计算出私钥，从而破解整个签名系统。
+A biased nonce attack targets the ECDSA signature algorithm. Even when the private key is protected, weaknesses in the random nonces used for signing can expose it. By predicting or recovering nonce information, an attacker can combine known messages and signatures to recover the private key and compromise the signature system.
 
 ### 2022LINECTF Baby crypto revisited
 
@@ -392,18 +392,18 @@ biased nonce attack是一种针对ECDSA签名算法的攻击方法，其攻击�
 0xbefd0c44fb52bfde7d7e4b3362d8a8f0fa7e18fd 0x302080531bbfd8c98d19f402b56415d962cc145 0x6de2a164d855afe90000000000000000 0xe545a32fa33bd935682a1fa376c272c1ac363583
 ```
 
-#### secp160r1 curve曲线
+#### The secp160r1 curve
 
-secp160r1 曲线是一个椭圆曲线，也称为 NIST P-160 曲线，其方程可以表示为：$y^2 = x^3 + ax + b$
+The secp160r1 elliptic curve is represented by the equation $y^2 = x^3 + ax + b$.
 
-其中 a 和 b 分别为曲线的系数。对于 secp160r1 曲线，这些系数的值为：
+Here, a and b are the curve coefficients. For secp160r1, they are:
 
 ```
 a = 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFC
 b = 0x1C97BEFC54BD7A8B65ACF89F81D4D4ADC565FA45
 ```
 
-secp160r1 曲线的参数如下：
+The secp160r1 parameters are:
 
 ```
 p =0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFF
@@ -411,52 +411,52 @@ n =0x0100000000000000000001F4C8F927AED3CA752257
 G = (0x4A96B5688EF573284664698968C38BB913CBFC82, 0x23A628553168947D59DCC912042351377AC5FB32) 
 ```
 
-其中，p 是一个素数，表示曲线上的点坐标的范围；n 是曲线上基点 G 的阶，即曲线上最小的正整数 k，使得 kG = O（O 表示无穷远点）；G 是曲线上的一个基点，它是曲线上的一个固定点，用于生成公钥和签名。
+Here, p is the prime defining the coordinate field; n is the order of the base point G, the smallest positive integer k for which kG = O, where O is the point at infinity; and G is the fixed base point used to generate public keys and signatures.
 
-在 secp160r1 曲线上，
+On the secp160r1 curve:
 
-- ECDSA 签名方程为：
+- The first ECDSA signature component is:
 
-​		r = ($x_1$ mod n)其中，r 是签名的第一个组成部分，x1 是曲线上点 P 的 x 坐标。
+  r = ($x_1$ mod n), where r is the first signature component and x1 is the x-coordinate of the curve point P.
 
-- 签名的第二个组成部分为：
+- The second signature component is:
 
 ​		s = ($k^{-1}$ * (hash + d * r)) mod n
 
-​		其中，s 是签名的第二个组成部分，k 是一个随机数，hash 是待签名的消息的哈希值，d 是私钥。
+  Here, s is the second signature component, k is the nonce, hash is the hash of the message being signed, and d is the private key.
 
-- 签名的验证方程为：
+- The signature verification expression recorded in these notes is:
 
 ​		$s^{-1}$ * hash * G + $s^-1$ * r * Q = O
 
-​		其中，Q 是公钥，表示曲线上的另一个点，用于验证签名。
+  Here, Q is the public key, another point on the curve, used to verify signatures.
 
-#### 题目理解
+#### Understanding the challenge
 
-nonce剩一半 ,secp160r1 curve曲线则p可知 题目给出了 $r,s,k,hash$,其中$k$仅有一半，在hnp问题中将其看作$msb$
+Only half of the nonce is available. Since the curve is secp160r1, p is known. The challenge provides $r,s,k,hash$, but only half of $k$ is disclosed; in the HNP formulation, this is treated as the $msb$.
 
-存在公式如下：
+The following equations apply:
 
 - $r=(x_{1})modn$	
 - $s = (k^{-1} * (hash + d * r)) mod n$
 
-其中 $r,s,k^{'}$已知,令 $k^{'}$为k的msb,$k^{'}$为64bit
+Here, $r,s,k^{'}$ are known. Let $k^{'}$ denote the known most significant part of k; $k^{'}$ is 64 bits.
 
-可知：
+This gives:
 
 - $k=s^{-1}(hash+d*r)\%n$
 - $k_{l}+k_{h}=s^{-1}(hash+d*r)\%n$
 - $k_{l}=s^{-1}hash+s^{-1}dr-k_{h}\%n$
 
-由上述可以构造如下一个格
+The following lattice can then be constructed:
 
 $\begin{bmatrix} n & 0 & \dots & 0 & 0 & 0  \\0 & n & \dots& 0 & 0 & 0 \\ \vdots & \vdots & \ddots & \vdots & \vdots & \vdots  \\ 0 & 0 & \dots & n & 0  & 0 \\ A_{1}&A_{2}&\dots&A_{n}&B/n&0\\B_1&B_2&...&B_n& 0 &2^{l+1} \end{bmatrix}$
 
-其中$A_i=r_i^{-1}s_{i},B_i=h*s_{i}^{-1}-k_{hi},B=2^{l+1}$
+Here, $A_i=r_i^{-1}s_{i},B_i=h*s_{i}^{-1}-k_{hi},B=2^{l+1}$.
 
-（一开始还想倒数第二位取出来 后来意识到这是群p上的运算,当然用k算d，就不需要考虑这个）
+(At first, I also tried extracting the penultimate coordinate, then realized that the arithmetic was in the group modulo p. If k is used directly to calculate d, that extra step is unnecessary.)
 
-#### 代码实现
+#### Implementation
 
 ```python
 #!/usr/bin/env sage
@@ -510,9 +510,9 @@ d=ZZ((M[-2])*n/B)
 print(hex(n-d))
 ```
 
-## DSA中的应用
+## Applications to DSA
 
-### 2020高校战役
+### 2020 University Cybersecurity Challenge
 
 ```python
 import os
@@ -638,15 +638,15 @@ def main():
 main()
 ```
 
-#### 题目理解
+#### Understanding the challenge
 
 
 
-#### 可行性分析
+#### Feasibility analysis
 
-#### 代码实现
+#### Implementation
 
-## LCG问题中的应用
+## Applications to LCG problems
 
 ### NPUCTF2020 babyLCG
 
@@ -709,17 +709,17 @@ if __name__ == "__main__":
     main()
 ```
 
-#### 题目理解
+#### Understanding the challenge
 
 
 
-#### 可行性分析
+#### Feasibility analysis
 
-#### 代码实现
+#### Implementation
 
-## 其他
+## Other applications
 
-### 2023数字中国网络安全人才赛道
+### 2023 Digital China Cybersecurity Talent Competition
 
 ```python
 from Crypto.Util.number import *
@@ -753,17 +753,17 @@ print(f'enc = {enc}')
 
 ```
 
-#### 题目理解
+#### Understanding the challenge
 
-t表示轮数，一共有30轮对应的$    c = (r * x + s) \% p$题目中给出的是$p、rs、cs、以及enc$
+t is the round number. There are 30 rounds, each using $c = (r * x + s) \% p$. The challenge provides $p$, $rs$, $cs$, and $enc$.
 
-按照题目目的，我们需要获得x,但是没有给出s，从题目表面上可以初步判断这是一个hnp隐藏数问题
+The goal is to recover x, but s is not provided. From the structure of the challenge, this appears to be a hidden number problem.
 
-#### 代码实现
+#### Implementation
 
 
 
-### 西湖论剑2022 MyCurveErrorLearn
+### West Lake Cybersecurity Conference 2022: MyCurveErrorLearn
 
 ```python
 from Crypto.Util.number import *
@@ -840,31 +840,31 @@ if __name__ == "__main__":
     print(FLAG)
 ```
 
-#### 题目理解
+#### Understanding the challenge
 
-https://kel.bz/post/hnp/这一题以及上面数字中国的那道题目其实都有点像这篇文章中的情形 按照这篇文章中的情形 作者给出一个独特的格子如下
+This challenge and the Digital China challenge above resemble the setting in https://kel.bz/post/hnp/. The author constructs the following distinctive lattice for that setting:
 
 ![image-20230421101901518](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230421101901518.png)
 
-#### 代码实现
+#### Implementation
 
 
 
-# 补充
+# Additional notes
 
-## EHNP问题
+## The extended hidden number problem (EHNP)
 
 ![image-20230421102543129](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230421102543129.png)
 
-在文章中给出这样一个格子
+The article presents the following lattice:
 
 ![image-20230421113529512](https://gra1n-cn.oss-cn-hangzhou.aliyuncs.com/image-20230421113529512.png)
 
-# 总结
+# Closing thoughts
 
-我希望这篇文章的周期会长一点，也希望自己可以沉下心去做事情。目前这件事只当作一件忙碌之余的消遣，但希望可以让养成自己考虑问题尽可能充分的习惯。
+I hope to keep developing this article over time and to find the patience to work carefully. For now, this is something I return to between other commitments, but I hope it helps me build the habit of thinking through problems as thoroughly as possible.
 
-# 参考
+# References
 
 1. https://jsur.in/posts/2022-10-03-sekai-ctf-2022-ezmaze-writeup
 2. https://zhuanlan.zhihu.com/p/581146119
