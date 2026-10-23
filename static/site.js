@@ -14,6 +14,6 @@ search?.addEventListener('input', () => {
     entry.hidden = !match;
     if (match) count++;
   });
-  document.querySelector('#result-count').textContent = `${count} 篇记录`;
+  document.querySelector('#result-count').textContent = `${count} ${count === 1 ? 'entry' : 'entries'}`;
   document.querySelector('#no-results').hidden = count !== 0;
 });

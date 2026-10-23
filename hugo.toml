@@ -1,12 +1,12 @@
 baseURL = 'https://w3iz3n.github.io/'
-locale = 'zh-CN'
-defaultContentLanguage = 'zh'
+locale = 'en-US'
+defaultContentLanguage = 'en'
 title = 'w3iz3n'
 hasCJKLanguage = true
 enableRobotsTXT = true
 summaryLength = 90
 [params]
-description = '关于密码学、安全与计算机科学的思考和笔记。'
+description = 'Thoughts and notes on cryptography, security, and computer science.'
 [outputs]
 home = ['HTML', 'RSS']
 [markup.goldmark.renderer]
