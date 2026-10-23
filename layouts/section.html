@@ -5,7 +5,9 @@
 {{ end }}
 {{ if .RegularPagesRecursive }}
 <div class="search-line"><span id="result-count" aria-live="polite">{{ len .RegularPagesRecursive }} {{ if eq (len .RegularPagesRecursive) 1 }}entry{{ else }}entries{{ end }}</span><label class="search-label"><span class="sr-only">Search article titles and summaries</span><input id="article-search" type="search" placeholder="Search titles or keywords…" autocomplete="off"><span aria-hidden="true">⌕</span></label></div>
-<section aria-label="Articles">{{ range .RegularPagesRecursive.ByDate.Reverse }}{{ partial "entry.html" . }}{{ end }}<p id="no-results" class="empty" hidden>No matching articles. Try another keyword.</p></section>
+{{ $entries := .RegularPagesRecursive.ByDate.Reverse }}
+{{ if .Params.notebook }}{{ $entries = .RegularPagesRecursive.ByWeight }}{{ end }}
+<section aria-label="Articles">{{ range $entries }}{{ partial "entry.html" . }}{{ end }}<p id="no-results" class="empty" hidden>No matching articles. Try another keyword.</p></section>
 {{ else }}
 <p class="empty">No notes yet.</p>
 {{ end }}
