@@ -1,0 +1,1 @@
+{{ define "main" }}<section class="archive-head"><p class="eyebrow">COLLECTION</p><h1>{{ .Title }}</h1></section>{{ range .Pages.ByDate.Reverse }}{{ partial "entry.html" . }}{{ end }}{{ end }}

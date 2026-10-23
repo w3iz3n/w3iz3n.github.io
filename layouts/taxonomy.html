@@ -1,0 +1,1 @@
+{{ define "main" }}<section class="archive-head"><p class="eyebrow">COLLECTIONS</p><h1>{{ .Title }}</h1></section>{{ range .Pages }}<article class="entry"><h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2><span>{{ len .Pages }} 篇</span></article>{{ end }}{{ end }}
